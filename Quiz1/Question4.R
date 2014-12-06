@@ -1,0 +1,31 @@
+# Getting and Cleaning Data
+# Coursera
+# John Hopkins University
+
+# Rui Mendes
+# ruidanielalvesmendes@gmail.com
+
+
+# File url and file destination to an object
+file.url <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml'
+file.dest <- 'question4.xml'
+
+# Download from the URL
+download.file(file.url, file.dest, method='curl')
+
+# Load XML package
+library(XML)
+
+# Read XML file
+doc <- xmlTreeParse('question4.xml', useInternalNodes = TRUE)
+
+# Dfine the rootnode variable
+rootNode <- xmlRoot(doc)
+
+# Write the zipcode data to a list
+zipcode <- xpathSApply(rootNode, "//zipcode", xmlValue)
+
+# Table the zipcodes
+table(zipcode)[['21231']]
+
+## Answer: 127
