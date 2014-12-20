@@ -35,9 +35,39 @@ merge_datasets = function() {
   list(x, y, s)
 }
 
+## 2 - Extracts only the measurements on the mean and standard deviation for each measurement:
+extract_mean_and_std = function(dataset) {
+  # Given the dataset (x), the goal is extract only the measurements on the mean
+  # and standard deviation for each measurement.
+  message("==== START == Extract Mean and Standard Deviation ====")
+  
+  # Read feature labels from the file
+  features <- read.table("data/features.txt")
+  
+  # Give friendly names to features column
+  names(features) <- c('feature_id', 'feature_name')
+  
+  # Search for matches to argument mean or standard deviation (sd)  within each element of character vector
+  index_features <- grep("-mean\\(\\)|-std\\(\\)", features$feature_name) 
+  
+  # Extract them from the data
+  result <- x[, index_features] 
+  names(result)
+  # Replace all matches of a string features 
+  names(result) <- gsub("\\(|\\)", "", (features[index_features, 2]))
+  names(result)
+  message("==== END == Extract Mean and Standard Deviation ====")
+  return(result)
+}
+
+
 ## Run the script ##
 dataset = merge_datasets()
 x = dataset[[1]]
 y = dataset[[2]]
 s = dataset[[3]]
 remove(dataset)
+
+# Extract only the measurements of the mean and standard deviation for each
+# measurement
+ext <- extract_mean_and_std(x)
