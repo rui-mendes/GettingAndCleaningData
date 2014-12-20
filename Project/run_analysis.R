@@ -27,7 +27,7 @@ merge_datasets = function() {
   s <- rbind(subject_train, subject_test)
   
   # Clean unnecessary variables (free memory)
-  remove('x_test','y_test','subject_test', 'x_train', 'y_train', 'subject_train')
+  # remove('x_test','y_test','subject_test', 'x_train', 'y_train', 'subject_train')
   
   message("==== END == Merge training and test datasets ====\n")
   
@@ -64,22 +64,19 @@ extract_mean_and_std = function(dataset) {
 name_activities = function(dataset) {
   message("==== START == Uses descriptive activity names ====")
   
-  # Define column name
-  colnames(dataset) <- "activity"
+  # Read activity labels
+  activities <- read.table("data/activity_labels.txt")
   
   # Replace activity name by the descriptive name
-  dataset$activity[dataset$activity == 1] = "WALKING"
-  dataset$activity[dataset$activity == 2] = "WALKING_UPSTAIRS"
-  dataset$activity[dataset$activity == 3] = "WALKING_DOWNSTAIRS"
-  dataset$activity[dataset$activity == 4] = "SITTING"
-  dataset$activity[dataset$activity == 5] = "STANDING"
-  dataset$activity[dataset$activity == 6] = "LAYING"
-  
+  dataset[, 1] = activities[dataset[, 1], 2]
+    
   message("==== END == Uses descriptive activity names ====\n")
   
   # return dataset
   dataset
 }
+
+
 
 ############################################################################
 ## Function to run the script ##
