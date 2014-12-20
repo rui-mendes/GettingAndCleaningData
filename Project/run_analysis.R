@@ -32,7 +32,7 @@ merge_datasets = function() {
   message("==== END == Merge training and test datasets ====\n")
   
   # Return a list with the 3 elements (x, y and s)
-  list(x, y, s)
+  list(x = x, y = y, s = s)
 }
 
 ## 2 - Extracts only the measurements on the mean and standard deviation for each measurement
@@ -77,6 +77,35 @@ name_activities = function(dataset) {
 }
 
 
+## 4 - Appropriately labels the data set with descriptive variable names
+# Read activity labels
+labels_dataset = function(dataset) {
+  message("==== START == Label Dataset ====")
+  
+  names(dataset$y) <- "Activity"
+  names(dataset$s) <- "Subject"
+  names(dataset$x) <- gsub('Acc',"Acceleration", names(dataset$x))
+  names(dataset$x) <- gsub('GyroJerk',"AngularAcceleration", names(dataset$x))
+  names(dataset$x) <- gsub('Gyro',"AngularSpeed", names(dataset$x))
+  names(dataset$x) <- gsub('Mag',"Magnitude", names(dataset$x))
+  names(dataset$x) <- gsub('^t',"TimeDomain.", names(dataset$x))
+  names(dataset$x) <- gsub('^f',"FrequencyDomain.", names(dataset$x))
+  names(dataset$x) <- gsub('\\-mean',".Mean", names(dataset$x))
+  names(dataset$x) <- gsub('\\-std',".StandardDeviation", names(dataset$x))
+  names(dataset$x) <- gsub('Freq\\.',"Frequency.", names(dataset$x))
+  names(dataset$x) <- gsub('Freq$',"Frequency", names(dataset$x))
+  
+  message("==== END == Label Dataset ====\n")
+  
+  # return dataset
+  dataset
+  
+  # Combines data table by columns
+  tidyDataSet <- cbind(dataset$s, dataset$y, dataset$x)
+}
+
+
+
 
 ############################################################################
 ## Function to run the script ##
@@ -84,14 +113,14 @@ name_activities = function(dataset) {
   
   # 1 - Merges the training and the test sets to create one data set.
   dataset <- merge_datasets()
-  x <- dataset[[1]]
-  y <- dataset[[2]]
-  s <- dataset[[3]]
- remove(dataset)
   
   # 2 - Extracts only the measurements on the mean and standard deviation for each measurement
-  extX <- extract_mean_and_std(x)
+  dataset$x <- extract_mean_and_std(dataset$x)
   
   # 3 - Uses descriptive activity names to name the activities in the data set
-  nameY <- name_activities(y)
+  dataset$y <- name_activities(dataset$y)
+
+  # 4 - Appropriately labels the data set with descriptive variable names
+  tidyDataSet <- labels_dataset(dataset)
+
 #}
