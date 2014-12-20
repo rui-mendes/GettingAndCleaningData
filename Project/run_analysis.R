@@ -7,7 +7,7 @@
 closeAllConnections()
 rm(list=ls())
 
-## 1 - Merges the training and the test sets to create one data set.
+## 1 - Merges the training and the test sets to create one data set
 merge_datasets = function() {
   message("==== START == Merge training and test datasets ====")
   
@@ -35,7 +35,7 @@ merge_datasets = function() {
   list(x, y, s)
 }
 
-## 2 - Extracts only the measurements on the mean and standard deviation for each measurement:
+## 2 - Extracts only the measurements on the mean and standard deviation for each measurement
 extract_mean_and_std = function(dataset) {
   # Given the dataset (x), the goal is extract only the measurements on the mean
   # and standard deviation for each measurement.
@@ -51,7 +51,7 @@ extract_mean_and_std = function(dataset) {
   index_features <- grep("-mean\\(\\)|-std\\(\\)", features$feature_name) 
   
   # Extract them from the data
-  result <- x[, index_features] 
+  result <- dataset[, index_features] 
   names(result)
   # Replace all matches of a string features 
   names(result) <- gsub("\\(|\\)", "", (features[index_features, 2]))
@@ -61,13 +61,17 @@ extract_mean_and_std = function(dataset) {
 }
 
 
-## Run the script ##
-dataset = merge_datasets()
-x = dataset[[1]]
-y = dataset[[2]]
-s = dataset[[3]]
-remove(dataset)
-
-# Extract only the measurements of the mean and standard deviation for each
-# measurement
-ext <- extract_mean_and_std(x)
+## Function to run the script ##
+#clean_data = function() {
+  
+  # 1 - Merges the training and the test sets to create one data set.
+  dataset <- merge_datasets()
+  x <- dataset[[1]]
+  y <- dataset[[2]]
+  s <- dataset[[3]]
+ # remove(dataset)
+  
+  # 2 - Extracts only the measurements on the mean and standard deviation for each measurement
+  ext <- extract_mean_and_std(x)
+  
+#}
