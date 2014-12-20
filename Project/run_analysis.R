@@ -53,14 +53,35 @@ extract_mean_and_std = function(dataset) {
   # Extract them from the data
   result <- dataset[, index_features] 
   names(result)
-  # Replace all matches of a string features 
+  # Replace all matches of the string features 
   names(result) <- gsub("\\(|\\)", "", (features[index_features, 2]))
   names(result)
-  message("==== END == Extract Mean and Standard Deviation ====")
+  message("==== END == Extract Mean and Standard Deviation ====\n")
   return(result)
 }
 
+## 3 - Uses descriptive activity names to name the activities in the data set
+name_activities = function(dataset) {
+  message("==== START == Uses descriptive activity names ====")
+  
+  # Define column name
+  colnames(dataset) <- "activity"
+  
+  # Replace activity name by the descriptive name
+  dataset$activity[dataset$activity == 1] = "WALKING"
+  dataset$activity[dataset$activity == 2] = "WALKING_UPSTAIRS"
+  dataset$activity[dataset$activity == 3] = "WALKING_DOWNSTAIRS"
+  dataset$activity[dataset$activity == 4] = "SITTING"
+  dataset$activity[dataset$activity == 5] = "STANDING"
+  dataset$activity[dataset$activity == 6] = "LAYING"
+  
+  message("==== END == Uses descriptive activity names ====\n")
+  
+  # return dataset
+  dataset
+}
 
+############################################################################
 ## Function to run the script ##
 #clean_data = function() {
   
@@ -69,9 +90,11 @@ extract_mean_and_std = function(dataset) {
   x <- dataset[[1]]
   y <- dataset[[2]]
   s <- dataset[[3]]
- # remove(dataset)
+ remove(dataset)
   
   # 2 - Extracts only the measurements on the mean and standard deviation for each measurement
-  ext <- extract_mean_and_std(x)
+  extX <- extract_mean_and_std(x)
   
+  # 3 - Uses descriptive activity names to name the activities in the data set
+  nameY <- name_activities(y)
 #}
