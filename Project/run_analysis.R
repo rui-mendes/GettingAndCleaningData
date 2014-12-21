@@ -97,14 +97,27 @@ labels_dataset = function(dataset) {
   
   message("==== END == Label Dataset ====\n")
   
-  # return dataset
-  dataset
-  
   # Combines data table by columns
   tidyDataSet <- cbind(dataset$s, dataset$y, dataset$x)
 }
 
 
+## 5 - Creates a 2nd, independent tidy data set with the average of each variable for each activity and each subject
+avg_tidydata = function(dataset) {
+  message("==== START == TidyDataset with Average of each variable ====")
+  
+  p <- dataset[, 3:dim(dataset)[2]] 
+  tidyDataAVGSet <- aggregate(p, list(dataset$Subject, dataset$Activity), mean)
+  
+  # Rename columns 1 and 2 to Subject and Activity
+  names(tidyDataAVGSet)[1] <- "Subject"
+  names(tidyDataAVGSet)[2] <- "Activity"
+  
+  message("==== END == TidyDataset with Average of each variable ====\n")
+  
+  # return tidyDataAVGSet
+  tidyDataAVGSet
+}
 
 
 ############################################################################
@@ -122,5 +135,8 @@ labels_dataset = function(dataset) {
 
   # 4 - Appropriately labels the data set with descriptive variable names
   tidyDataSet <- labels_dataset(dataset)
+
+  # 5 - Creates a 2nd, independent tidy data set with the average of each variable for each activity and each subject
+  tidyDataAVGSet <- avg_tidydata(tidyDataSet)
 
 #}
