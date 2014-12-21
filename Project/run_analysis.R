@@ -135,7 +135,7 @@ create_file = function(dataset, filename, format = 'txt') {
 
 ############################################################################
 ## Function to run the script ##
-#clean_data = function() {
+clean_data = function() {
   
   # 1 - Merges the training and the test sets to create one data set.
   dataset <- merge_datasets()
@@ -153,4 +153,4 @@ create_file = function(dataset, filename, format = 'txt') {
   tidyDataAVGSet <- avg_tidydata(tidyDataSet)
 
   create_file(tidyDataAVGSet, "tidyDataSet.txt", "txt")
-#}
+}
