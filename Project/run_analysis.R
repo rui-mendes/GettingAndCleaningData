@@ -119,6 +119,19 @@ avg_tidydata = function(dataset) {
   tidyDataAVGSet
 }
 
+## Store dataset in the file (txt, csv)
+create_file = function(dataset, filename, format = 'txt') {
+  message(paste("==== START == Create ", format, " file ====", sep = ""))
+  
+  # Creat csv file
+  if (format == 'csv') {
+    write.csv(dataset, filename, row.names=FALSE)
+  } else {
+    write.table(dataset, filename, row.names=FALSE)
+  }
+  
+  message(paste("==== END == Create ", format, " file ====", sep = ""))
+}
 
 ############################################################################
 ## Function to run the script ##
@@ -139,4 +152,5 @@ avg_tidydata = function(dataset) {
   # 5 - Creates a 2nd, independent tidy data set with the average of each variable for each activity and each subject
   tidyDataAVGSet <- avg_tidydata(tidyDataSet)
 
+  create_file(tidyDataAVGSet, "tidyDataSet.txt", "txt")
 #}
