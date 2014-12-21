@@ -28,6 +28,7 @@ See `CodeBook.md` for details.
 Execution\Run
 ------------
 Download or clone this repo.
-In RStudio do:
-1. source("run_analysis.R")
-2. clean_data()
+
+Run:
+ + source("run_analysis.R")
+ + clean_data()
