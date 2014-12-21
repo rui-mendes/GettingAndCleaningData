@@ -7,6 +7,25 @@
 closeAllConnections()
 rm(list=ls())
 
+## Check if datasets exist; otherwise proceed to the download
+get_datasets = function() {
+  
+  if (!file.exists("data")) {
+    message("==== START == Download dataset ====")
+    
+    # download the data
+    fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+    zipfile="UCI_HAR_data.zip"
+    message("### Downloading data ###")
+    download.file(fileURL, destfile=zipfile, method="curl")
+    message("### Unziping data ###")
+    unzip(zipfile)
+    file.rename(from = 'UCI HAR Dataset', to = 'data')
+    file.remove(zipfile)
+    message("==== END == Download dataset ====")
+  }
+}
+
 ## 1 - Merges the training and the test sets to create one data set
 merge_datasets = function() {
   message("==== START == Merge training and test datasets ====")
@@ -152,5 +171,6 @@ clean_data = function() {
   # 5 - Creates a 2nd, independent tidy data set with the average of each variable for each activity and each subject
   tidyDataAVGSet <- avg_tidydata(tidyDataSet)
 
+  #create TXT file with tidyDataAVGSet
   create_file(tidyDataAVGSet, "tidyDataSet.txt", "txt")
 }
